@@ -1,8 +1,21 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import {login} from '../api/Firebase';
 
 function Nav(props) {
+    const [user, setUser] = useState();
+
+    useEffect(()=>{
+        setUser(user);
+    },[])
+
+    const userLogin =()=>{
+        login().then(setUser);
+    }
+
     return (
         <HeaderContainer>
             <Link to='/'>
@@ -17,11 +30,12 @@ function Nav(props) {
                     모든 상품
                 </Link>
 
-                <div className='userWrap'>
-                    <button className='loginBtn'>Login</button>
-                    <button className='logoutBtn'>LogOut</button>
-                </div>
             </nav>
+    
+            <div className='userWrap'>
+                    <button onClick={userLogin} className='loginBtn'>Login</button>
+                    <button className='logoutBtn'>LogOut</button>
+            </div>
         </HeaderContainer>
     );
 }

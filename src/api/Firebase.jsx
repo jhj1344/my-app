@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey : process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,8 +16,20 @@ const firebaseConfig = {
     .env = process에서 사용할 수 있는 모든 환경 변수를 포함하는 객체
     
     */
-
 }
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const provider = new GoogleAuthProvider(); // 구글 로그인 셋팅
+const auth = getAuth();
+
+export async function login(){
+    try{
+        const result = await signInWithPopup (auth, provider);
+        const user = result.user;
+        console.log(user)
+        return user;
+    }catch (error){
+        console.error(error);
+    }
+}
+
