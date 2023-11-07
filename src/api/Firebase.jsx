@@ -1,10 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+import {ref,get,set,getDatabase} from 'firebase/database';
+import {v4 as uuid} from 'uuid'; //고유 식별자를 생성해주는 패키지
+
 
 const firebaseConfig = {
     apiKey : process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain : process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId : process.env.REACT_APP_FIREBASE_PROJECT_ID
+    projectId : process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    databaseURL : process.env.REACT_APP_FIREBASE_DB_URL
 
     /*
     process.env = 환경변수 nodejs 전역 객체
@@ -21,7 +25,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider(); // 구글 로그인 셋팅
 const auth = getAuth();
+const database = getDatabase(app);
 
+//로그인시 자동로그인 현상 수정
+provider.setCustomParameters({
+    prompt : 'select_account',
+})
+
+//구글 로그인
 export async function login(){
     try{
         const result = await signInWithPopup (auth, provider);
@@ -33,3 +44,60 @@ export async function login(){
     }
 }
 
+//구글 로그아웃
+export async function logOut(){
+    try{
+        await signOut(auth);
+    }catch (error){
+        console.error(error);
+    }
+}
+
+//로그인시 정보를 계속 유지
+export function onUserState(callback){
+    onAuthStateChanged(auth, async(user)=>{
+        if(user){
+            try{
+                const updateUser = await adminUser(user);
+                callback(updateUser)
+            }catch (error){
+                console.error(error);
+            }
+        }else{
+            callback(null)
+        }
+    })
+}
+
+
+//관리자 계정 관리
+async function adminUser(user){
+    // async = 비동기식으로 데이터를 접근하는 메서드
+    try{
+        const snapshot = await get(ref(database, 'admin'));
+        if(snapshot.exists()){
+            const admins = snapshot.val();
+            const isAdmin = admins.includes(user.email);
+            console.log(isAdmin)
+            return{...user, isAdmin}
+        }
+        return user
+    }catch(error){
+        console.error(error);
+    }
+}
+
+
+//파이어베이스에 상품 정보 연동하기
+export async function addProducts(product,image){
+    const id = uuid();
+    return set(ref(database, `products/${id}`),{
+        ...product,
+        id,
+        // price,
+        image,
+        // option,
+        // title,
+        // category
+    })
+}

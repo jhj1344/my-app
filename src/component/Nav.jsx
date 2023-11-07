@@ -3,18 +3,32 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {login} from '../api/Firebase';
+import {logOut, login, onUserState} from '../api/Firebase';
+import UserData from './UserData';
+import { useAuthContext } from '../context/AuthContext';
 
 function Nav(props) {
-    const [user, setUser] = useState();
+    const {user, login, logOut} = useAuthContext();
 
-    useEffect(()=>{
-        setUser(user);
-    },[])
+    // const [user, setUser] = useState();
 
-    const userLogin =()=>{
-        login().then(setUser);
-    }
+    // useEffect(()=>{
+    //     onUserState((user)=>{
+    //         console.log(user)
+    //         setUser(user);
+    //     })
+
+    // },[])
+    // useEffect(()=>{
+    //     onUserState(setUser);
+    // },[])
+
+    // const userLogin =()=>{
+    //     login().then(setUser);
+    // }
+    // const userLogOut =()=>{
+    //     logOut().then(setUser);
+    // }
 
     return (
         <HeaderContainer>
@@ -30,11 +44,18 @@ function Nav(props) {
                     모든 상품
                 </Link>
 
+
             </nav>
     
             <div className='userWrap'>
-                    <button onClick={userLogin} className='loginBtn'>Login</button>
-                    <button className='logoutBtn'>LogOut</button>
+                    {user && user.isAdmin && (
+                        <Link to="/products/new">
+                            상품등록
+                        </Link>
+                    )}
+                    {user && <UserData user={user}/>}
+                    {!user && <button onClick={login} className='loginBtn'>Login</button>}
+                    {user && <button onClick={logOut} className='logoutBtn'>LogOut</button>} 
             </div>
         </HeaderContainer>
     );
