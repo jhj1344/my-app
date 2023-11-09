@@ -9,6 +9,7 @@ import NewProduct from './pages/NewProduct';
 import NotFound from './pages/NotFound';
 import MyCart from './pages/MyCart';
 import { useAuthContext } from './context/AuthContext';
+import ProductDetail from './pages/ProductDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -28,13 +29,15 @@ const routes = createBrowserRouter([
     errorElement: <NotFound/>,
     children: [
       {path : '/products', element:<AllProduct/>},
-      {path : '/products/new', 
+      {
+        path : '/products/new', 
         element:
         <ProtectRoute checkAdmin>
           <NewProduct/>
         </ProtectRoute>
       },
-      {path : '/cart', element:<MyCart/>}
+      {path : '/cart', element:<MyCart/>},
+      {path : '/products/detail/:id', element : <ProductDetail/>}
     ]
   }
 

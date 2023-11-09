@@ -1,9 +1,10 @@
 import React from 'react';
+import Products from '../component/Products';
 
 function AllProduct(props) {
     return (
-        <div>
-            AllProduct
+        <div className='container'>
+            <Products/>
         </div>
     );
 }

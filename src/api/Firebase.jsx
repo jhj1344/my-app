@@ -94,10 +94,35 @@ export async function addProducts(product,image){
     return set(ref(database, `products/${id}`),{
         ...product,
         id,
-        // price,
         image,
         // option,
         // title,
         // category
     })
+}
+
+//database에 연동된 정보들을 가져오기
+export async function getProducts(){
+    //async 비동기 방식의 데이터 처리방법(promise의 단점을 보완한 최신 비동기처리방식코드)
+    // return get(ref(database,'products')).then((snapshot)=>{
+    //     //파이어베이스에 있는 실시간 데이터베이스의 product 노드(경로)에 대한 참조와 함께
+    //     //생성하고 읽기 작업을 시작하면 비동기로 호출받은 정보값을 반환
+    //     //.then((snapshot) snapshot은 내가 참조하고 있는 노드
+    //     //snapshot이라는 매개변수명을 사용하는 이유는
+    //     //특정 순간을 저장한 후에 결과와 비교해서 일치하는지 확인하는 테스트 단계
+    //     if(snapshot.exists()){
+    //         //snapshot.exists() = snapshot에 접근한 노드에 데이터가 있는지 확인
+    //         return Object.values(snapshot.val())
+    //         //snapshot노드에 있는 객체들을 오브젝트로 변환해서 반환
+    //     }
+    //     return[]
+    //     //snapshot.exists() = false
+    // })
+
+    const snapshot = await get(ref(database,'products'));
+    if(snapshot.exists()){
+        return Object.values(snapshot.val())
+    }else{
+        return []
+    }
 }
