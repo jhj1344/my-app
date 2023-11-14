@@ -95,9 +95,11 @@ export async function addProducts(product,image){
         ...product,
         id,
         image,
-        // option,
-        // title,
-        // category
+        price : parseInt(product.price)
+        //option : product.option.split(',').map(option => option.trim())
+        //trim() 문자열에 있는 공백제거
+        //join(',') 분리된 문자를 다시 문자열로 쉼표로 구분하여 작성
+
     })
 }
 
@@ -124,5 +126,30 @@ export async function getProducts(){
         return Object.values(snapshot.val())
     }else{
         return []
+    }
+}
+
+//장바구니에 저장된 요소들을 업데이트 하기
+export async function updateCart(userId, product){
+    try{
+        const cartRef = ref(database, `cart/${userId}/${product.id}`);
+        await set(cartRef, product);
+
+    }catch(error){
+        console.error(error);
+    }
+}
+//데이터 베이스에 있는 장바구니 리스트 불러오기
+export async function getCart(userId){
+    try{
+        const snapshot = await(get(ref(database,`cart/${userId}`)));
+        if(snapshot.exists()){
+            const item = snapshot.val();
+            return Object.values(item)
+        }else{
+            return[];
+        }
+    }catch(error){
+        console.error(error)
     }
 }

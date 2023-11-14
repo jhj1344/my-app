@@ -7,6 +7,7 @@ function DetailPageEvent({product}) {
     const detail = ()=>{
         navigate(`/products/detail/${product.id}`, {
             state : {
+                title : product.title,
                 id : product.id,
                 image : product.image,
                 price : product.price,

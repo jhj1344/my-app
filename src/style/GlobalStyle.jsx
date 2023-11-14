@@ -71,6 +71,87 @@ img{
         flex-basis: 30%;
     }
 }
+
+//detail page
+.detailPage{
+	max-width: 1024px;
+	display: flex;
+	gap: 40px;
+	margin: 0px auto;
+	.detailImg{
+		max-width: 400px;
+		img{
+			width: 100%;
+			display: block;
+		}
+	}
+	.detailText{
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		width: 100%;
+		h2{
+			font-size: 24px;
+			width: 100%;
+			font-weight: normal;
+			border-bottom: solid 1px #ddd;
+			padding-bottom: 16px;
+		}
+		p{
+			width: 100%;
+			padding-bottom: 16px;
+			color: rgba(0,0,0,0.7);
+			display: flex;
+			font-size: 20px;
+			span{
+				padding-left: 100px;
+			}
+		}
+
+		.detailOpt{
+			width: 100%;
+			display: flex;
+			align-items: center;
+			label{
+				font-size: 20px;
+				color: rgba(0,0,0,0.7);
+			}
+			select{
+				margin-left: 100px;
+				width: 100px;
+				padding: 6px 12px;
+				background: transparent;
+				border: solid 1px black;
+				border-radius: 3px;
+			}
+		}
+		.detailBtns{
+			display: flex;
+			gap: 16px;
+			margin-top: auto;
+			flex-direction: column;
+			button{
+				width: 100%;
+				height: 50px;
+				border-radius: 5px; 
+				border: none;
+				font-weight: bold;
+				font-size: 20px;
+				color: #fff;
+				
+			}
+			.cartBtn{
+				background: lightgray;
+
+			}
+			.buyBtn{
+				background: darkblue;
+
+			}
+		}
+	}
+}
+
 `
 
 export default GlobalStyle;
