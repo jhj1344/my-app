@@ -152,6 +152,27 @@ img{
 	}
 }
 
+//cart
+.cartList{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	border-top: solid 1px #ddd;
+	padding: 24px 0px;
+	li{
+		display: flex;
+		align-items: center;
+		border-bottom: solid 1px #ddd;
+		padding: 12px 0px;
+		gap: 12px;
+		img{
+			width: 100px;
+			display: block;
+		}
+	}
+
+}
+
 `
 
 export default GlobalStyle;

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
-import {ref,get,set,getDatabase} from 'firebase/database';
+import {ref,get,set,getDatabase, remove} from 'firebase/database';
 import {v4 as uuid} from 'uuid'; //고유 식별자를 생성해주는 패키지
 
 
@@ -152,4 +152,40 @@ export async function getCart(userId){
     }catch(error){
         console.error(error)
     }
+}
+
+//장바구니 상품 삭제하기
+export async function deleteCartItem(userId, productId){
+    console.log(userId, productId);
+    return remove(ref(database, `cart/${userId}/${productId}`));
+}
+
+
+//데이터베이스에 등록한 상품 카테고리 불러오기
+export async function getCategory(){
+    const database = getDatabase()
+    const categoryRef = ref(database , 'products');
+    try{
+        const snapshot = await get(categoryRef);
+        if(snapshot.exists()){
+            return Object.values(snapshot.val());
+        }
+        return []
+    }catch(error){
+        console.error(error)
+    }
+}
+
+//데이터베이스에 있는 카테고리별 상품을 분류해서 불러오기
+export async function getCategoryProduct(category){
+    return get(ref(database, 'products'))
+    .then((snapshot)=>{
+        if(snapshot.exists()){
+            const allProduct = Object.values(snapshot.val())
+            //먼저 모든 상품 정보를 받아온후에 카테고리별로 필터링을 거치는 순서
+            const filterProduct = allProduct.filter((product)=>product.category === category)
+            return filterProduct
+        }
+        return []
+    })
 }
