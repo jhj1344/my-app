@@ -1,4 +1,5 @@
 import React from 'react';
+import DetailPageEvent from './DetailPageEvent';
 
 function CategoryProductList({category,product}) {
     return (
@@ -7,8 +8,7 @@ function CategoryProductList({category,product}) {
             <ul className='productList'>
                 {product.map((product)=>(
                     <li key={product.id}>
-                        <img src={product.image}/>
-                        <p>{product.title}</p>
+                        <DetailPageEvent product={product}/>
                     </li>
                 ))}
             </ul>
