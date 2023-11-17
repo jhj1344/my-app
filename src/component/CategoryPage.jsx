@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCategoryProduct } from '../api/Firebase';
 import CategoryProductList from './CategoryProductList';
+import SlideItem from './SlideItem';
 
 function CategoryPage(props) {
     const [product, setProduct] = useState([]);
@@ -19,6 +20,7 @@ function CategoryPage(props) {
 
     return (
         <div>
+            <SlideItem/>
             <CategoryProductList category={category} product={product}/>
         </div>
     );

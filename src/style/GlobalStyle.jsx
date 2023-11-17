@@ -172,6 +172,37 @@ img{
 	}
 
 }
+//search result
+.searchForm{
+	width: 100%;
+	height: 50px;
+	margin-bottom: 50px;
+	background: white;
+	border: none;
+	font-size: 30px;
+	border-radius: 10px;
+	padding-left: 30px;
+	box-sizing: border-box;
+}
+.searchResultList{
+	display: flex;
+	gap: 12px;
+	flex-direction: column;
+	li{
+		>div{
+			display: flex;
+			gap: 30px;
+			align-items: center;
+			padding: 12px 0px;
+			border-bottom: solid 1px #ddd;
+		}
+
+	}
+	img{
+		width: 100px;
+	}
+}
+
 
 `
 
