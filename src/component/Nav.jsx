@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import {logOut, login, onUserState} from '../api/Firebase';
 import UserData from './UserData';
@@ -9,17 +9,24 @@ import { useAuthContext } from '../context/AuthContext';
 import CategoryList from './CategoryList';
 
 function Nav(props) {
-    const {user, login, logOut} = useAuthContext();
+    //const {user, login, logOut} = useAuthContext();
+    const [user, setUser] = useState();
+    const navigate = useNavigate();
 
-    // const [user, setUser] = useState();
+    const userLogOut=()=>{
+        logOut().then(setUser)
+    }
+    const userLogin=()=>{
+        navigate('/login');
+    }
 
-    // useEffect(()=>{
-    //     onUserState((user)=>{
-    //         console.log(user)
-    //         setUser(user);
-    //     })
+    useEffect(()=>{
+        onUserState((user)=>{
+            console.log(user)
+            setUser(user);
+        })
 
-    // },[])
+    },[])
     // useEffect(()=>{
     //     onUserState(setUser);
     // },[])
@@ -57,9 +64,23 @@ function Nav(props) {
                             상품등록
                         </Link>
                     )}
-                    {user && <UserData user={user}/>}
+                    {/* {user && <UserData user={user}/>}
                     {!user && <button onClick={login} className='loginBtn'>Login</button>}
-                    {user && <button onClick={logOut} className='logoutBtn'>LogOut</button>} 
+                    {user && <button onClick={logOut} className='logoutBtn'>LogOut</button>}  */}
+                    {/* <Link to='/login'>
+                        로그인
+                    </Link> */}
+                    {user ? (
+                        <>
+                            {user && <UserData user={user}/>}
+                            <button onClick={userLogOut} className='logoutBtn'>logout</button>
+                        </>
+                    ) : (
+                        // <Link to='/login'>
+                        //     <button className='loginBtn'>login</button>
+                        // </Link>
+                        <button onClick={userLogin} className='loginBtn'>login</button>
+                    )}
             </div>
         </HeaderContainer>
     );

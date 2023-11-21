@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import {ref,get,set,getDatabase, remove} from 'firebase/database';
 import {v4 as uuid} from 'uuid'; //고유 식별자를 생성해주는 패키지
 import {getDownloadURL, getStorage, ref as storageRef} from 'firebase/storage';
@@ -233,3 +233,28 @@ export async function getStorageImg(imgPath){
         console.error(error)
     }
 }
+
+//이메일 회원가입 저장하기
+export async function joinEmail(email,password){
+    const auth  = getAuth()//저장할 사용자 인증폼을 불러옴
+    try{
+        const userCredit = await createUserWithEmailAndPassword(auth, email, password)
+        //createUserWithEmailAndPassword 메서드를 이용해서 사용자정보,이메일,패스워드를 변수에 담음
+        const user = userCredit.user;
+        console.log(user);
+        return user
+    }catch(error){
+        console.error(error)
+    }
+}
+
+export async function loginEmail(email, password){
+    try{
+        const userCredit = await signInWithEmailAndPassword(auth, email, password);
+        return userCredit.user;
+    }catch(error){
+        console.error(error)
+    }
+}
+
+//중복 이메일 체크
