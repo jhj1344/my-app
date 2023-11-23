@@ -17,7 +17,7 @@ function Products(props) {
         queryKey : ['products'], //가져올려는 값
         queryFn : getProducts //값을 가져올때 사용할 함수
     })
-    console.log(products)
+    //console.log(products)
 
     return (
         <>

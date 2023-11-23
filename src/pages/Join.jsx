@@ -43,7 +43,7 @@ function Join(props) {
                         type='password'
                         placeholder='비밀번호를 입력하세요'
                         value={password}
-                        onChange={(e)=>{setPassword(e.target.value)}}
+                        onChange={(e)=>setPassword(e.target.value)}
                     />
                     {psError && <span className='errorText'>{psError}</span>}
                 </div>

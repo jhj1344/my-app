@@ -6,6 +6,7 @@ import { AuthContextProvider } from './context/AuthContext';
 import GlobalStyle from './style/GlobalStyle';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AllProduct from './pages/AllProduct';
+import Footer from './component/Footer';
 
 const queryClient = new QueryClient();
 //QueryClient()는 라이브러리의 쿼리 변경에 대한 기본 설정
@@ -23,6 +24,7 @@ function App() {
           </Routes>
 
           <Outlet/>
+          <Footer/>
         </AuthContextProvider>
         
       </QueryClientProvider>

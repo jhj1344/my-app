@@ -60,6 +60,7 @@ img{
 .container{
     max-width: 1280px;
     margin: 0px auto;
+	padding: 100px 0px;
 }
 
 .productList{
@@ -69,6 +70,26 @@ img{
     li{
         flex-shrink: 0;
         flex-basis: 30%;
+		.productsItem{
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			.textWrap{
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				.itemTitle{
+					font-size: 20px;
+					font-weight: normal;
+					transition: 500ms;
+					color: rgba(0,0,0,0.5);
+				}
+				.itemFlex{
+					display: flex;
+					justify-content: space-between;
+				}
+			}
+		}
     }
 }
 

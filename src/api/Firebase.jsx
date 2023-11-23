@@ -9,7 +9,8 @@ const firebaseConfig = {
     apiKey : process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain : process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
     projectId : process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    databaseURL : process.env.REACT_APP_FIREBASE_DB_URL
+    databaseURL : process.env.REACT_APP_FIREBASE_DB_URL,
+    storageBucket : process.env.REACT_APP_STORAGEBUCKET
 
     /*
     process.env = 환경변수 nodejs 전역 객체
@@ -227,8 +228,8 @@ export async function getStorageImg(imgPath){
 
     try{
         const imgRef = storageRef(storage, imgPath);
-        const download = await getDownloadURL(imgRef);
-        return getDownloadURL
+        const downloadURL = await getDownloadURL(imgRef);
+        return downloadURL
     }catch(error){
         console.error(error)
     }

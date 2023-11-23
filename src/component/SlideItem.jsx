@@ -6,29 +6,32 @@ import {Autoplay, EffectFade} from 'swiper/modules';
 import 'swiper/css/effect-fade';
 import { getStorageImg, storage } from '../api/Firebase';
 
-function SlideItem(props) {
-    const sliderImg = [
-        'http://res.cloudinary.com/dhrxosyio/image/upload/v1699500457/sfggnyggml2c82nes9x3.png',
-        'http://res.cloudinary.com/dhrxosyio/image/upload/v1699501220/hcqbibj6vucqxbdfhsds.png',
-        'http://res.cloudinary.com/dhrxosyio/image/upload/v1699500426/my5n6vwcgrtucjzicivn.png',
-        'http://res.cloudinary.com/dhrxosyio/image/upload/v1699500787/la8mxce599hjpczswg5u.png'
-
-    ]
+function SlideItem({imgs}) {
+    // const sliderImg = [
+    //     'https://firebasestorage.googleapis.com/v0/b/my-shop-3d18c.appspot.com/o/one%20piece_02.png?alt=media&token=f0788e30-483e-41c5-8222-fa8a31f07d6e',
+    //     'https://firebasestorage.googleapis.com/v0/b/my-shop-3d18c.appspot.com/o/one%20piece_03.png?alt=media&token=0b0abb20-f976-485b-ad58-a4a75dcf9f1a',
+    //     'https://firebasestorage.googleapis.com/v0/b/my-shop-3d18c.appspot.com/o/one%20piece_04.png?alt=media&token=c4a04cff-4d38-46fc-a571-0af9b4ec3e43',
+    //     'https://firebasestorage.googleapis.com/v0/b/my-shop-3d18c.appspot.com/o/outer_01.png?alt=media&token=8bb3993a-158a-4349-950a-3135a31b6946',
+    //     'https://firebasestorage.googleapis.com/v0/b/my-shop-3d18c.appspot.com/o/outer_02.png?alt=media&token=df6afd0f-fd44-40ff-a2c1-801f749f6c32',
+    //     'https://firebasestorage.googleapis.com/v0/b/my-shop-3d18c.appspot.com/o/outer_03.png?alt=media&token=8cf98f42-e858-4b6a-b399-1bb7f67ca398',
+    // ]
 
     const [imgUrl, setImgUrl] = useState([]);
     useEffect (()=>{
-        async function loadImg(){
+        const loadImg = async ()=>{
             try{
                 const urls = await Promise.all(
-                    imgUrl.map((imgPath)=>getStorageImg(imgPath, storage))
-                )
-                setImgUrl(urls);
+                    imgs.map((imgPath)=>getStorageImg(imgPath))
+                );
+                setImgUrl(urls)
+                //console.log(imgUrl)
             }catch(error){
                 console.error(error)
             }
         }
-        loadImg();
-    },[imgUrl])
+        loadImg()
+    }, [imgs])
+    
     const slider = {
         width : '500px',
         height : '600px',
@@ -46,7 +49,7 @@ function SlideItem(props) {
                     modules={[Autoplay, EffectFade]}
                     effect={'fade'}
             >
-                {sliderImg.map((el,index)=>(
+                {imgUrl.map((el,index)=>(
                     <SwiperSlide key={index} style={{background: `url(${el}) no-repeat center center /cover`}}></SwiperSlide>
                 ))}
             </Swiper>

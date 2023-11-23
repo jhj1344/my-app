@@ -14,11 +14,11 @@ function CategoryList(props) {
         categories.forEach((categoryObj)=>{
             setCategory.add(categoryObj.category);
             //add는 배열에 추가하는 메서드
-            console.log(categoryObj.category)
+            //console.log(categoryObj.category)
         })
     }
     const setCategoryArr = [...setCategory]
-    console.log(setCategoryArr)
+    //console.log(setCategoryArr)
 
     return (
         <CategoryItemList>
