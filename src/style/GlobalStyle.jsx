@@ -57,6 +57,9 @@ img{
 	display: block;
 	width: 100%;
 }
+button{
+	cursor: pointer;
+}
 .container{
     max-width: 1280px;
     margin: 0px auto;
@@ -198,7 +201,7 @@ img{
 	width: 100%;
 	height: 50px;
 	margin-bottom: 50px;
-	background: white;
+	background: lightgray;
 	border: none;
 	font-size: 30px;
 	border-radius: 10px;
