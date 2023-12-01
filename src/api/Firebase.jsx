@@ -47,7 +47,7 @@ export async function login(){
         const user = result.user;
         //위의 로그인이 성공적으로 실행이되면 result에는 로그인한 정보가 user라는 변수에 담기게 된다.
         console.log(user)
-        return user;//로그인된 user의 정보를 다른고에서 참조할수 있도록 반환
+        return user;//로그인된 user의 정보를 다른곳에서 참조할수 있도록 반환
     }catch (error){
         console.error(error);
     }
