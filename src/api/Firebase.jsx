@@ -26,7 +26,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider(); // 구글 로그인 셋팅
-const auth = getAuth();
+const auth = getAuth(); //파이어베이스..?!
 const database = getDatabase(app);
 const storage = getStorage(app);
 
@@ -41,9 +41,13 @@ provider.setCustomParameters({
 export async function login(){
     try{
         const result = await signInWithPopup (auth, provider);
+        //로그인 함수를 실행시 signInWithPopup이라는 파이어베이스 인증방법을 실행
+        //auth = firebase에 인증 인스턴스
+        //provider = 공급자(실행하는 로그인 방법)
         const user = result.user;
+        //위의 로그인이 성공적으로 실행이되면 result에는 로그인한 정보가 user라는 변수에 담기게 된다.
         console.log(user)
-        return user;
+        return user;//로그인된 user의 정보를 다른고에서 참조할수 있도록 반환
     }catch (error){
         console.error(error);
     }
@@ -52,7 +56,7 @@ export async function login(){
 //구글 로그아웃
 export async function logOut(){
     try{
-        await signOut(auth);
+        await signOut(auth);//signOut은 기존의 정보들을 초기화 하는.
     }catch (error){
         console.error(error);
     }
@@ -61,10 +65,12 @@ export async function logOut(){
 //로그인시 정보를 계속 유지
 export function onUserState(callback){
     onAuthStateChanged(auth, async(user)=>{
+        //onAuthStateChanged = 사용자의 인증상태에 변화를 체크하는 이벤트(로그인,로그아웃)
         if(user){
             try{
                 const updateUser = await adminUser(user);
-                callback(updateUser)
+                //사용자가 로그인한 경우 adminUser 라는 함수를 실행해서 사용자 권한을체크
+                callback(updateUser)//업데이트된 사용자 정보를 전달받은후 callback으로 호출
             }catch (error){
                 console.error(error);
             }
@@ -80,13 +86,18 @@ async function adminUser(user){
     // async = 비동기식으로 데이터를 접근하는 메서드
     try{
         const snapshot = await get(ref(database, 'admin'));
+        //firebase안에 database안에 admin폴더를 검색함
         if(snapshot.exists()){
-            const admins = snapshot.val();
+            //snapshot.exists()  = snapshot안에 데이터가 있음을 의미함
+            const admins = snapshot.val();//admin폴더안에 데이터목록들을 검색
             const isAdmin = admins.includes(user.email);
+            //검색된 admin 에 현재 로그인된 사용자의 이메일과 일치하는 이메일이 있는지 확인(이걸로 관리자인지 아닌지를 탐색)
             console.log(isAdmin)
             return{...user, isAdmin}
+            //원래 사용자 정보와 isAdmin 변수를 새 배열에 추가해서 업데이트 후 반환
         }
         return user
+        //데이터베이스에 admin이라는 폴더가 없으면 user만 반환
     }catch(error){
         console.error(error);
     }
